@@ -106,6 +106,7 @@ function Topic (id, topic, contributor, affiliation, subaffiliation, youtube_lin
     this.affiliation = affiliation;
     this.subaffiliation = subaffiliation;
     this.youtube_link = youtube_link;
+    this.video_id = youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
     this.topic_abstract = topic_abstract;
     this.time_period = time_period;
     this.region = region;
@@ -221,9 +222,9 @@ function openTopicModal (topic_id) {
     $('.modal-backdrop').appendTo('#map-container');
     
     var video_id = topics[topic_id].youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
-    var embedded_id = "https://www.youtube.com/embed/" + video_id;
-    $('.modal-topic-video-frame').attr('src', embedded_id);
-    
+    embedded_id = "https://www.youtube.com/embed/" + video_id + "?enablejsapi=1";
+    $('.modal-topic-video-frame').attr('src', embedded_id);  
+    $("#yt-player").attr("src", embedded_id);                                
     $('.modal-topic-title').html(topics[topic_id].topic);
     $('.modal-topic-contributor').html(topics[topic_id].contributor + "   |   " + contributors[topics[topic_id].contributor].affiliation + " | " + contributors[topics[topic_id].contributor].subaffiliation);
     $('.modal-topic-time-period').html("<b>" + topics[topic_id].region + " | " + topics[topic_id].time_period + "</b>");
@@ -236,11 +237,12 @@ function openTopicModal (topic_id) {
     
     topics[topic_id].keywords.forEach(function (element) {
         if (element != '') {
-            $('.modal-keywords-items').append('<li><a class="modal-topic-keyword" data-toggle="tooltip" data-placement="right" title="' + keywords[element].desc + '">' + element + '</a></li>');
+            $('.modal-keywords-items').append('<li><a class="modal-topic-keyword" data-toggle="tooltip" data-placement="bottom" title="' + keywords[element].desc + '">' + element + '</a></li>');
         }
     });
-    $('[data-toggle="tooltip"]').tooltip();   
+    $('[data-toggle="tooltip"]').tooltip(); 
 }
+
 $('#topic-modal').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
@@ -391,4 +393,5 @@ function togglePlaylist() {
             $("#playlist-button").html('Playlist (x)');
         }        
     }
+    console.log(is_playlist_active);
 }
