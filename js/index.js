@@ -393,5 +393,5 @@ function togglePlaylist() {
             $("#playlist-button").html('Playlist (x)');
         }        
     }
-    console.log(is_playlist_active);
 }
+

@@ -14,13 +14,12 @@ function onYouTubeIframeAPIReady() {
         }
     });
   }
+  
 function onPlayerReady(event) {
   if (is_playlist_active == true){
     var videoList = [];
-    
     Object.keys(youtube_playlist).forEach(function(key) {
     var value = youtube_playlist[key].video_id; 
-    console.log(value);
     videoList.push(value);
     });
     event.target.setVolume(10);
@@ -34,7 +33,6 @@ var done = false;
       //setTimeout(stopVideo, 6000);
       done = true;
     } 
-    console.log("video playing?" + done);
   }
 
   function stopVideo() {
