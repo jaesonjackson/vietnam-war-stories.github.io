@@ -244,16 +244,27 @@ function openTopicModal (topic_id) {
     $('#modal-region-img').attr('src', regions[topics[topic_id].region].image)
     $('.modal-topic-abstract').html(topics[topic_id].topic_abstract);
     $('#modal-region-title').html(topics[topic_id].region);
-    $('.modal-transcript-download').attr('onClick', 'downloadTranscript(' + topic_id + ');'); 
-    
+
+    // the following adds a link to the transcript pdf if it is in the spreadsheet
+    if (contributors[topics[topic_id].contributor].transcript_link != "") {
+        $('#transcript_url').html('<a href=\"' + 
+            contributors[topics[topic_id].contributor].transcript_link + '\">'
+            + 'Download full transcript (PDF)</a>'); 
+    }
+    else {
+        $('#transcript_url').html('No transcript available yet'); 
+    }
+
     topics[topic_id].keywords.forEach(function (element) {
         if (element != '') {
-            $('.modal-keywords-items').append('<li><a class="modal-topic-keyword" data-toggle="tooltip" data-placement="bottom" title="' + keywords[element].desc + '">' + element + '</a></li>');
+            $('.modal-keywords-items')
+              .append('<li><a class="modal-topic-keyword" data-toggle="tooltip"'
+                + 'data-placement="auto right" title="'
+                + keywords[element].desc + '">' + element + '</a></li>');
         }
     });
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();   
 }
-
 $('#topic-modal').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
 });
@@ -268,7 +279,7 @@ function addToSearch (search_item) {
 }
 
 function clearSidebar () {
-    $('#simpleList').empty();
+    $('#results-container').empty();
 }
 
 /* This is REALLY sloppy, need to fix! */
