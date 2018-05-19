@@ -192,7 +192,7 @@ function addToSidebar (new_topic) {
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
     var new_sidebar_element =   '<div class="panel panel-default results-panel">' +
                                     '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body" onClick="openTopicModal(' + new_topic.id + ')">' +
-                                        '<div class="media results-sidebar-media">' +
+                                        '<div class="media results-sidebar-media video-id-' + video_id + '">' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
                                                 '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
@@ -205,16 +205,27 @@ function addToSidebar (new_topic) {
                                         '</div>' +
                                     '</div>' + 
                                 '</div>';
-    $("#results-container").append(new_sidebar_element);
+    $("#simpleList").append(new_sidebar_element);
     if (new_topic.inPlaylist) {
         $("#playlist-btn-" + new_topic.id).attr("onClick", "removeFromPlaylist(" + new_topic.id + ")");
         $("#playlist-btn-" + new_topic.id).attr("value", "-");
     } else {
         $("#playlist-btn-" + new_topic.id).attr("onClick", "addToPlaylist(" + new_topic.id + ")");
         $("#playlist-btn-" + new_topic.id).attr("value", "+");
+    }  
+
+};
+
+
+function img_find() {
+    var imgs = document.getElementsByClassName("results-media-image");
+    var imgSrcs = [];
+    for (var i = 0; i < imgs.length; i++) {
+        imgSrcs.push(imgs[i].src);
     }
-    
-}
+
+    //return imgSrcs;
+};
 
 function openTopicModal (topic_id) {
     $("#topic-modal").modal("show");
@@ -257,7 +268,7 @@ function addToSearch (search_item) {
 }
 
 function clearSidebar () {
-    $('#results-container').empty();
+    $('#simpleList').empty();
 }
 
 /* This is REALLY sloppy, need to fix! */
@@ -275,7 +286,7 @@ function filterByRegion (region) {
     });
     
     if (found_topics == 0) {
-       $('#results-container').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
+       $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
     }
 }
 
@@ -331,7 +342,7 @@ function searchByFilters () {
             addToSidebar (element); 
         });
     } else {
-        $('#results-container').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
+        $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
     }
     
     return false;
@@ -394,3 +405,4 @@ function togglePlaylist() {
         }        
     }
 }
+
