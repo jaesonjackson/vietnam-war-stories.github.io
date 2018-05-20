@@ -190,9 +190,9 @@ function getData (data, tabletop) {
 
 function addToSidebar (new_topic) {
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
-    var new_sidebar_element =   '<div class="panel panel-default results-panel">' +
+    var new_sidebar_element =   '<div id="'+ new_topic.id +'" class="panel panel-default results-panel">' +
                                     '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body" onClick="openTopicModal(' + new_topic.id + ')">' +
-                                        '<div class="media results-sidebar-media video-id-' + video_id + '">' +
+                                        '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
                                                 '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
@@ -263,7 +263,8 @@ function openTopicModal (topic_id) {
                 + keywords[element].desc + '">' + element + '</a></li>');
         }
     });
-    $('[data-toggle="tooltip"]').tooltip();   
+    
+$('[data-toggle="tooltip"]').tooltip();   
 }
 $('#topic-modal').on('shown.bs.modal', function() {
     $(document).off('focusin.modal');
@@ -279,7 +280,7 @@ function addToSearch (search_item) {
 }
 
 function clearSidebar () {
-    $('#results-container').empty();
+    $('#simpleList').empty();
 }
 
 /* This is REALLY sloppy, need to fix! */
@@ -307,7 +308,7 @@ function searchByFilters () {
     found_topics = [];
     
     topics.forEach(function (element) {
-        console.log (element);
+       // console.log (element);
     })
     
     if (search_request == '') {
@@ -389,12 +390,21 @@ function addToPlaylist(id) {
 }
 
 function removeFromPlaylist(id) {
+    if (is_playlist_active == false){
     delete youtube_playlist[id];
     topics[id].inPlaylist = false;
     $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
     $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
     $('#playlist-btn-' + id).attr('value', '+');
+} else {
+    delete youtube_playlist[id];
+    topics[id].inPlaylist = false;
+    document.getElementById(id).remove();
+    $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
+    $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
+    $('#playlist-btn-' + id).attr('value', '+');
 }
+};
 
 var is_playlist_active = false;
 function togglePlaylist() {
@@ -404,7 +414,7 @@ function togglePlaylist() {
     } else {
         clearSidebar();
         if (is_playlist_active) {
-            is_playlist_active = false;
+           is_playlist_active = false;
             $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
             searchByFilters();
         } else {
@@ -412,8 +422,7 @@ function togglePlaylist() {
                 addToSidebar(topics[video_id]);
             }
             is_playlist_active = true;
-            $("#playlist-button").html('Playlist (x)');
+            $("#playlist-button").html('Back');
         }        
     }
 }
-
