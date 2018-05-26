@@ -195,7 +195,7 @@ function addToSidebar (new_topic) {
                                         '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" title="Click and hold to drag and re-order">' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
-                                                '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
+                                                '<input type="button" id="playlist-btn-' + new_topic.id + '" title="Add to Playlist" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
                                             '</div>' +
                                             '<div class="media-body results-media-body">' +
                                                 '<h4 class="results-media-heading"><b>' + new_topic.topic + '</b></h4>' + 
@@ -209,6 +209,7 @@ function addToSidebar (new_topic) {
     if (new_topic.inPlaylist) {
         $("#playlist-btn-" + new_topic.id).attr("onClick", "removeFromPlaylist(" + new_topic.id + ")");
         $("#playlist-btn-" + new_topic.id).attr("value", "-");
+        $("#playlist-btn-" + new_topic.id).attr("title", "Remove from Playlist");
     } else {
         $("#playlist-btn-" + new_topic.id).attr("onClick", "addToPlaylist(" + new_topic.id + ")");
         $("#playlist-btn-" + new_topic.id).attr("value", "+");
@@ -386,6 +387,7 @@ function addToPlaylist(id) {
         $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
         $('#playlist-btn-' + id).attr('onclick', 'removeFromPlaylist(' + id + ')');
         $('#playlist-btn-' + id).attr('value', '-');
+        $('#playlist-btn-' + id).attr('title', 'Remove from Playlist');
     } 
 }
 
@@ -396,6 +398,7 @@ function removeFromPlaylist(id) {
     $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
     $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
     $('#playlist-btn-' + id).attr('value', '+');
+    $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
 } else {
     delete youtube_playlist[id];
     topics[id].inPlaylist = false;
@@ -403,6 +406,7 @@ function removeFromPlaylist(id) {
     $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
     $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
     $('#playlist-btn-' + id).attr('value', '+');
+    $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
 }
 };
 
