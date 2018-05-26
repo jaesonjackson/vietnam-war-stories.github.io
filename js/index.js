@@ -192,7 +192,7 @@ function addToSidebar (new_topic) {
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
     var new_sidebar_element =   '<div id="'+ new_topic.id +'" class="panel panel-default results-panel">' +
                                     '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body" onClick="openTopicModal(' + new_topic.id + ')">' +
-                                        '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
+                                        '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" title="Click and hold to drag and re-order">' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
                                                 '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +

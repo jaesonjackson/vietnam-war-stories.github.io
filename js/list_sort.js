@@ -6,7 +6,10 @@ Sortable.create(simpleList, {
     },
     onUpdate: function (evt) {
         console.log('Playlist re-sorted');
-
+        var newTopId = document.getElementById("simpleList").childNodes;
+        console.log(newTopId[0].id);
+        var topic_id = newTopId[0].id;
+        openTopicModal (topic_id);   
     },
   });
  
