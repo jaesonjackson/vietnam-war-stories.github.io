@@ -16,7 +16,7 @@ $name = $email = $message = "";
         $flags = 'style="display:none;"';
 
         //Deal with the email
-        $to = 'ejblom@iu.edu'; // change to whatever email you want to send to
+        $to = 'jackjaes@iu.edu'; // change to whatever email you want to send to
         $subject = 'A message from Vietnam War Stories';
 
 
