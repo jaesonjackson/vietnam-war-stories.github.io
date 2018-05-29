@@ -2,17 +2,17 @@
 
 Sortable.create(simpleList, {
     onRemove: function (evt) {
-        console.log('Playlist items(s) removed');
+        // console.log('Playlist items(s) removed');
     },
     onUpdate: function (evt) {
-        console.log('Playlist re-sorted');
+        // console.log('Playlist re-sorted');
         var newTopId = document.getElementById("simpleList").childNodes;
-        console.log(newTopId[0].id);
         var topic_id = newTopId[0].id;
         openTopicModal (topic_id);   
     },
   });
- 
+
+//Create playlist array
 var videoPlayList = [];
 
 //Add yt_player script
@@ -39,7 +39,7 @@ function onPlayerReady(event) {
     event.target.setVolume(10);
     event.target.cuePlaylist(videoPlayList);
   } 
-  console.log("Player ready");
+  // console.log("Player ready");
 }
 
 var done = false;
@@ -58,15 +58,13 @@ function stopVideo() {
 function onPlayerError(event) {
 }
 
-//Create playlist array
+//Add to playlist array
 function video_find() {
     var videos = document.getElementsByClassName("results-sidebar-media");
     videoPlayList = [];
     for (var i = 0; i < videos.length; i++) {
       var playListItems = videos[i].dataset.videoId;
-      console.log(playListItems);
       videoPlayList.push(playListItems);
     }
     return videoPlayList;
 };
-
