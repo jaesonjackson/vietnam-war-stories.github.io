@@ -25,7 +25,6 @@
     "mockery/mockery": "^0.9.4",
     "friendsofphp/php-cs-fixer": "^1.11",
     "nyholm/nsa": "^1.0",
-    "satooshi/php-coveralls": "dev-master",
     "phpunit/phpcov": "2.*"
   },
   "autoload": {
