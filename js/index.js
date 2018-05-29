@@ -429,4 +429,17 @@ function togglePlaylist() {
             $("#playlist-button").html('Back');
         }        
     }
+    var firstInPlaylist = youtube_playlist[0].id;
+    openTopicModal (firstInPlaylist);
+}
+
+//Disable Click to Drag message if only one video is in playlist
+function checkSortToolTip(){
+    var playlist_length = Object.keys(youtube_playlist).length;
+
+    if (playlist_length == 1){
+       var newTopId = document.getElementById("simpleList").childNodes;
+       var topic_id = newTopId[0].id;
+       $("#" + topic_id).attr("title", ""); 
+    } 
 }
