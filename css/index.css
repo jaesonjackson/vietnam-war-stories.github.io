@@ -13,20 +13,33 @@ body {
     background-color: #77777A;
 }
 
-/* choose how wide to make tooltip*/
-.tooltip-inner {
-    min-width: 300px; 
+#glossary-defs-list {
+    text-decoration: underline;
+    padding: 10px 10px 5px 10px;
 }
+
+#glossary-defs {
+    font-size: 38px;
+    padding: 10px 10px 5px 10px;
+}
+
+.glyphicon-move {
+  cursor: move;
+  cursor: -webkit-grabbing;
+}
+
 .navbar {
     min-height: 55px;
     padding-top: 1px;
     border-bottom: 1.5px solid #77777A;
 }
+
 .navbar-brand {
     font-size: 27px;
     font-family: 'Cardo', serif;
     line-height: 7px;
 }
+
 .navbar-brand small {
     display: block;
     font-size: 12px;
@@ -46,6 +59,7 @@ body {
 #search-container {
     padding: 15px 10px 5px 10px;
     border-bottom: 1.5px solid #77777A;
+
 }
 #search-bar, #search-filter-group .btn, #playlist-button, .sidebar-panel {
     border-radius: 0;
@@ -267,4 +281,3 @@ body {
     background-size: cover;
     margin: 0; padding: 0;
 }
-

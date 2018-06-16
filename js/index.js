@@ -25,17 +25,17 @@ $(document).ready(function () {
         
         onChange: function () {
             affiliations_filters = $('#affiliations-filter').val();
-            console.log("AFFILIATIONS: " + affiliations_filters);
+            // console.log("AFFILIATIONS: " + affiliations_filters);
             searchByFilters();
         },
         onSelectAll: function () {
             affiliations_filters = $('#affiliations-filter').val();
-            console.log("AFFILIATIONS: " + affiliations_filters);
+            // console.log("AFFILIATIONS: " + affiliations_filters);
             searchByFilters();
         },
         onDeselectAll: function () {
             affiliations_filters = [];
-            console.log("AFFILIATIONS: " + affiliations_filters);
+            // console.log("AFFILIATIONS: " + affiliations_filters);
             searchByFilters();
         }
     });
@@ -54,20 +54,21 @@ $(document).ready(function () {
         
         onChange: function () {
             regions_filters = $('#regions-filter').val();
-            console.log("REGIONS: " + regions_filters);
+            // console.log("REGIONS: " + regions_filters);
             searchByFilters();
         },
         onSelectAll: function () {
             regions_filters = $('#regions-filter').val();
-            console.log("REGIONS: " + regions_filters);
+            // console.log("REGIONS: " + regions_filters);
             searchByFilters();
         },
         onDeselectAll: function () {
             regions_filters = [];
-            console.log("REGIONS: " + regions_filters);
+            // console.log("REGIONS: " + regions_filters);
             searchByFilters();
         }
     });
+
     $('#years-filter').multiselect({
         includeSelectAllOption: true,             
         buttonText: function(options, select) {
@@ -83,17 +84,17 @@ $(document).ready(function () {
         
         onChange: function () {
             years_filters = $('#years-filter').val();
-            console.log("YEARS: " + years_filters);
+            // console.log("YEARS: " + years_filters);
             searchByFilters();
         },
         onSelectAll: function () {
             years_filters = $('#years-filter').val();
-            console.log("YEARS: " + years_filters);
+            // console.log("YEARS: " + years_filters);
             searchByFilters();
         },
         onDeselectAll: function () {
             years_filters = $('#years-filter').val();
-            console.log("YEARS: " + years_filters);
+            // console.log("YEARS: " + years_filters);
             searchByFilters();
         }
     });
@@ -158,16 +159,27 @@ function getData (data, tabletop) {
            keywordsTotal ++;
        } 
     });
+
+    //Check to see if current page is glossary.hml
+    var current_path = window.location.pathname;
+    var current_page = current_path.substring(current_path.lastIndexOf('/') + 1);
+    //If current page is glossary.html, display glossary terms
+    if (current_page == "glossary.html"){
+        glossaryTerms();
+    }
+
     $.each(tabletop.sheets("Contributors").all(), function (i, current) {
         if (contributors[current.contributor_name] == null) {
             contributors[current.contributor_name] = new Contributor (contributorsTotal, current.contributor_name, current.primary_affiliation, current.secondary_affiliation, current.total_contributions);
             contributorsTotal ++;
             
-            if (current.transcript_link != '') { contributors[current.contributor_name].transcript_link = current.transcript_link; console.log (contributors[current.contributor_name])}
+            if (current.transcript_link != '') { contributors[current.contributor_name].transcript_link = current.transcript_link; 
+                // console.log (contributors[current.contributor_name]);
+            }
         }
     });  
     $.each(tabletop.sheets("Map Data").all(), function (i, current) {
-        if (current.topic != '' && current.contributor != '' && current.youtube_link != '') {
+        if (current.topic != '' && current.contributor != '' && current.youtube_link != '' && current_page !='glossary.html') {
             var new_topic = new Topic (topicTotal, current.topic, current.contributor, current.contributor_affiliation, current.contributor_subaffiliation, 
                                        current.youtube_link, current.topic_abstract, current.time_period, current.region, [current.keyword_1, current.keyword_2, current.keyword_3, current.keyword_4, current.keyword_5]);
             // if (current.region != '') { regions[current.region].entries.push(new_contribution); }
@@ -179,23 +191,44 @@ function getData (data, tabletop) {
     });
 }
 
+
 /*
  * Sidebar
  *
+ * glossaryTerms() -
  * addToSidebar (new_contribution) -
  * openTopicModal (topic_id) -
  * clearSidebar() -
  * searchByFilters() -
  */
 
+//Get glossary terms array, create terms list
+function glossaryTerms(){
+  var glossaryTerms = Object.values(keywords);
+  for (var i = 0; i < glossaryTerms.length; i++){
+    var new_glossary_entry = glossaryTerms[i];
+    var glossary_list =  '<a href="#"><li onClick="getGlossaryDef('+  new_glossary_entry.id +')">' + new_glossary_entry.name + '</li></a>';
+    $("#glossary-entries").append(glossary_list);
+  }
+ }
+
+//Display definition on click
+ function getGlossaryDef(glossary_id){
+    var glossary_list = Object.values(keywords);
+    var glossary_entry = '<h1>' + glossary_list[glossary_id].name + '</h1>';
+    var glossary_def = glossary_list[glossary_id].desc;
+    $("#glossary-defs-list").empty().append(glossary_entry);
+    $("#glossary-defs").empty().append(glossary_def);
+ }
+ 
 function addToSidebar (new_topic) {
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
-    var new_sidebar_element =   '<div id="'+ new_topic.id +'" class="panel panel-default results-panel">' +
-                                    '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body" onClick="openTopicModal(' + new_topic.id + ')">' +
-                                        '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" title="Click and hold to drag and re-order">' +
+    var new_sidebar_element =   '<div id="'+ new_topic.id + '" class="panel panel-default results-panel" title="Click and drag to re-order">' +
+                                    '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body"  onClick="openTopicModal(' + new_topic.id + ')">' +
+                                        '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
-                                                '<input type="button" id="playlist-btn-' + new_topic.id + '" title="Add to Playlist" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
+                                                '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
                                             '</div>' +
                                             '<div class="media-body results-media-body">' +
                                                 '<h4 class="results-media-heading"><b>' + new_topic.topic + '</b></h4>' + 
@@ -213,20 +246,9 @@ function addToSidebar (new_topic) {
     } else {
         $("#playlist-btn-" + new_topic.id).attr("onClick", "addToPlaylist(" + new_topic.id + ")");
         $("#playlist-btn-" + new_topic.id).attr("value", "+");
+        $("#playlist-btn-" + new_topic.id).attr("title", "Add to Playlist");
     }  
-
-};
-
-
-function img_find() {
-    var imgs = document.getElementsByClassName("results-media-image");
-    var imgSrcs = [];
-    for (var i = 0; i < imgs.length; i++) {
-        imgSrcs.push(imgs[i].src);
-    }
-
-    //return imgSrcs;
-};
+}
 
 function openTopicModal (topic_id) {
     $("#topic-modal").modal("show");
@@ -239,14 +261,12 @@ function openTopicModal (topic_id) {
     $("#yt-player").attr("src", embedded_id);                                
     $('.modal-topic-title').html(topics[topic_id].topic);
     $('.modal-topic-contributor').html(topics[topic_id].contributor + "   |   " + contributors[topics[topic_id].contributor].affiliation + " | " + contributors[topics[topic_id].contributor].subaffiliation);
-    $('.modal-topic-time-period').html("<b>" + topics[topic_id].region + " | " + topics[topic_id].time_period + "</b>");
-
-    
+    $('.modal-topic-time-period').html("<b>" + topics[topic_id].region + " | " + topics[topic_id].time_period + "</b>");   
     $('#modal-region-img').attr('src', regions[topics[topic_id].region].image)
     $('.modal-topic-abstract').html(topics[topic_id].topic_abstract);
     $('#modal-region-title').html(topics[topic_id].region);
 
-    // the following adds a link to the transcript pdf if it is in the spreadsheet
+// the following adds a link to the transcript pdf if it is in the spreadsheet
     if (contributors[topics[topic_id].contributor].transcript_link != "") {
         $('#transcript_url').html('<a href=\"' + 
             contributors[topics[topic_id].contributor].transcript_link + '\">'
@@ -264,7 +284,6 @@ function openTopicModal (topic_id) {
                 + keywords[element].desc + '">' + element + '</a></li>');
         }
     });
-    
 $('[data-toggle="tooltip"]').tooltip();   
 }
 $('#topic-modal').on('shown.bs.modal', function() {
@@ -309,7 +328,7 @@ function searchByFilters () {
     found_topics = [];
     
     topics.forEach(function (element) {
-       // console.log (element);
+        // console.log (element);
     })
     
     if (search_request == '') {
@@ -408,6 +427,7 @@ function removeFromPlaylist(id) {
     $('#playlist-btn-' + id).attr('value', '+');
     $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
 }
+
 };
 
 var is_playlist_active = false;
@@ -429,8 +449,9 @@ function togglePlaylist() {
             $("#playlist-button").html('Back');
         }        
     }
+    checkSortToolTip();
     var firstInPlaylist = youtube_playlist[0].id;
-    openTopicModal (firstInPlaylist);
+    openTopicModal (firstInPlaylist);   
 }
 
 //Disable Click to Drag message if only one video is in playlist
@@ -443,3 +464,4 @@ function checkSortToolTip(){
        $("#" + topic_id).attr("title", ""); 
     } 
 }
+
