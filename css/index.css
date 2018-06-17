@@ -51,7 +51,7 @@ body {
 #sidebar-container {
     height: 100%;
     padding: 0; margin: 0;
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     z-index: 999;
     background-color: #eee;
     border-right: 1px solid #77777A;
@@ -80,7 +80,9 @@ body {
 }
 
 #results-container {
-    padding: 10px 10px 5px 10px;
+    height: 100%;
+    padding: 10px 10px 75px 10px;
+    overflow-y: scroll;
 }
 .results-panel {
     margin: 5px 0px 5px 0px;
