@@ -179,12 +179,14 @@ function getData (data, tabletop) {
         }
     });  
     $.each(tabletop.sheets("Map Data").all(), function (i, current) {
-        if (current.topic != '' && current.contributor != '' && current.youtube_link != '' && current_page !='glossary.html') {
+        if (current.topic != '' && current.contributor != '' && current.youtube_link != '') {
             var new_topic = new Topic (topicTotal, current.topic, current.contributor, current.contributor_affiliation, current.contributor_subaffiliation, 
                                        current.youtube_link, current.topic_abstract, current.time_period, current.region, [current.keyword_1, current.keyword_2, current.keyword_3, current.keyword_4, current.keyword_5]);
             // if (current.region != '') { regions[current.region].entries.push(new_contribution); }
-
+            if (current_page !='glossary.html'){
             addToSidebar (new_topic);
+
+            }
             topics.push(new_topic);
             topicTotal ++;
         }
