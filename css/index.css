@@ -18,7 +18,7 @@ body {
     position: relative;
     /*background-color: rgba(0, 0, 0, 0.5);*/
     background-color: #eee;
-    /*background-image: url(../images/new_paper.jpg);*/
+    background-image: url(../images/new_paper.jpg);
     background-size: cover;
 }
 
@@ -37,6 +37,12 @@ body {
   cursor: -webkit-grabbing;
 }
 
+/* choose how wide to make tooltip*/
+.tooltip-inner {
+    min-width: 300px; 
+    text-align: justify; /* can be left too */
+}
+ 
 .navbar {
     min-height: 55px;
     padding-top: 1px;
@@ -92,6 +98,7 @@ body {
     height: 100%;
     padding: 10px 10px 75px 10px;
     overflow-y: scroll;
+     background-color: #eee;
 }
 .results-panel {
     margin: 5px 0px 5px 0px;
@@ -291,4 +298,12 @@ body {
     height: 100%; width: 100%;
     background-size: cover;
     margin: 0; padding: 0;
+}
+.container-fluid{
+
+    overflow: hidden;
+}
+
+#glossary-terms {
+    padding: 0px 10px 4em 10px;
 }
