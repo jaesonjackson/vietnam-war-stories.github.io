@@ -267,7 +267,9 @@ function addToSidebar (new_topic) {
                                         '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
+                                                '<div onclick="event.stopPropagation()">' + 
                                                 '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
+                                                '</div>' +
                                             '</div>' +
                                             '<div class="media-body results-media-body">' +
                                                 '<h4 class="results-media-heading"><b>' + new_topic.topic + '</b></h4>' + 
@@ -296,7 +298,9 @@ function addToRelatedVideos (new_topic) {
                                         '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
+                                                '<div onclick="event.stopPropagation()">' + 
                                                 '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
+                                                '</div>' +
                                             '</div>' +
                                             '<div class="media-body results-media-body">' +
                                                 '<h4 class="results-media-heading"><b>' + new_topic.topic + '</b></h4>' + 
@@ -565,7 +569,7 @@ function checkSortToolTip(){
             if (playlist_length == 1){
             $("#" + topic_id).attr("title", ""); 
             } else {
-               // openTopicModal(topic_id);
+                openTopicModal(topic_id);
             }
         }    
     } 
