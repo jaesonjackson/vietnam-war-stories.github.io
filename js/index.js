@@ -148,6 +148,7 @@ function Keyword (id, name, desc, count) {
 
 var topics = [];
 var topicTotal = 0;
+var topics_loaded = false;
 var contributors = {};
 var contributorsTotal = 0;
 var regions = {};
@@ -199,6 +200,7 @@ function getData (data, tabletop) {
             topics.push(new_topic);
             topicTotal ++;
         }
+        topics_loaded = true;
     });
 }
 
@@ -221,7 +223,19 @@ function glossaryTerms(){
     var glossary_list =  '<a href="#"><li onClick="getGlossaryDef('+  new_glossary_entry.id +')">' + new_glossary_entry.name + '</li></a>';
     $("#glossary-entries").append(glossary_list);
   }
+  getFirstDef();
  }
+ 
+function getFirstDef(){
+    if ($('#glossary-defs-list').is(':empty') && current_page =="glossary.html"){
+        if(topics_loaded == true){
+            getGlossaryDef(0);
+        }
+        else{
+        setTimeout(getFirstDef, 250);
+        }
+    }
+}
 
 //Display definition on click
 function getGlossaryDef(glossary_id){
@@ -568,8 +582,7 @@ function checkSortToolTip(){
         var topic_id = document.getElementById("simpleList").firstChild.id;
             if (playlist_length == 1){
             $("#" + topic_id).attr("title", ""); 
-            } else {
-                openTopicModal(topic_id);
+            } else {openTopicModal(topic_id);
             }
         }    
     } 
