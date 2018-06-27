@@ -225,11 +225,12 @@ function glossaryTerms(){
   }
   getFirstDef();
  }
- 
+
+var lastClickedDef = 0; 
 function getFirstDef(){
     if ($('#glossary-defs-list').is(':empty') && current_page =="glossary.html"){
         if(topics_loaded == true){
-            getGlossaryDef(0);
+            getGlossaryDef(lastClickedDef);
         }
         else{
         setTimeout(getFirstDef, 250);
@@ -239,6 +240,8 @@ function getFirstDef(){
 
 //Display definition on click
 function getGlossaryDef(glossary_id){
+    lastClickedDef = glossary_id;
+    console.log("Last clicked def is: " + lastClickedDef);
     $("#glossary-links").empty();
     $("#related_videos").empty();
     var related_topic_found = false;
@@ -547,6 +550,7 @@ function togglePlaylist() {
            $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
             if (current_page == "glossary.html"){
                 glossaryTerms();
+                getGlossaryDef(lastClickedDef);
                 console.log("Add glossaryTerms");
             } else {
             searchByFilters();
