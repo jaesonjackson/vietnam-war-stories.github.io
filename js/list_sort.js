@@ -8,7 +8,8 @@ Sortable.create(simpleList, {
         // console.log('Playlist re-sorted');
         var newTopId = document.getElementById("simpleList").childNodes;
         var topic_id = newTopId[0].id;
-        openTopicModal (topic_id);   
+        openTopicModal (topic_id);  
+        updateSidebarPlaylist(); 
     },
   });
 
@@ -68,3 +69,15 @@ function video_find() {
     }
     return videoPlayList;
 };
+
+function updateSidebarPlaylist(){
+  if (is_playlist_active){
+      var sidebar_playlist = document.getElementById("simpleList").childNodes;
+      youtube_playlist = [];
+            for (var i = 0; i < sidebar_playlist.length; i++) {
+                var j = sidebar_playlist[i].id;
+                youtube_playlist.splice(i, 0, topics[j]);
+            }
+  } 
+     savePlaylist();
+}

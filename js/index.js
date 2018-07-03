@@ -4,7 +4,7 @@ var affiliations_filters = [],
     regions_filters = [],
     years_filters = [];
 var saved_playlist = JSON.parse(sessionStorage.getItem('youtube_playlist'));
-var youtube_playlist = {} ;
+var youtube_playlist = [] ;
 
 $(document).ready(function () {
     if(!jQuery.isEmptyObject(saved_playlist)){
@@ -48,6 +48,7 @@ $(document).ready(function () {
             searchByFilters();
         }
     });
+    
     $('#regions-filter').multiselect({
         includeSelectAllOption: true,
         buttonText: function(options, select) {
@@ -123,6 +124,7 @@ function Topic (id, topic, contributor, affiliation, subaffiliation, youtube_lin
     this.keywords = keywords;
     this.inPlaylist = false;
 }
+
 function Contributor (id, name, affiliation, subaffiliation, total_contributions) {
     this.id = id;
     this.name = name;
@@ -131,6 +133,7 @@ function Contributor (id, name, affiliation, subaffiliation, total_contributions
     this.total_contributions = total_contributions;
     this.transcript_link = '';
 }
+
 function Region (id, name, desc, count, image) {
     this.id = id;
     this.name = name;
@@ -139,6 +142,7 @@ function Region (id, name, desc, count, image) {
     this.image = image;
     this.entries = [];
 }
+
 function Keyword (id, name, desc, count) {
     this.id = id;
     this.name = name;
@@ -187,6 +191,7 @@ function getData (data, tabletop) {
             }
         }
     });  
+    
     $.each(tabletop.sheets("Map Data").all(), function (i, current) {
         if (current.topic != '' && current.contributor != '' && current.youtube_link != '') {
             var new_topic = new Topic (topicTotal, current.topic, current.contributor, current.contributor_affiliation, current.contributor_subaffiliation, 
@@ -195,7 +200,6 @@ function getData (data, tabletop) {
             if (current_page !='glossary.html'){
             addToSidebar (new_topic);
             refreshSavePlaylist();
-
             }
             topics.push(new_topic);
             topicTotal ++;
@@ -203,7 +207,6 @@ function getData (data, tabletop) {
         topics_loaded = true;
     });
 }
-
 
 /*
  * Sidebar
@@ -226,6 +229,7 @@ function glossaryTerms(){
   getFirstDef();
  }
 
+//Get the most recently clicked glossary term
 var lastClickedDef = 0; 
 function getFirstDef(){
     if ($('#glossary-defs-list').is(':empty') && current_page =="glossary.html"){
@@ -241,7 +245,6 @@ function getFirstDef(){
 //Display definition on click
 function getGlossaryDef(glossary_id){
     lastClickedDef = glossary_id;
-    console.log("Last clicked def is: " + lastClickedDef);
     $("#glossary-links").empty();
     $("#related_videos").empty();
     var related_topic_found = false;
@@ -269,6 +272,7 @@ function getGlossaryDef(glossary_id){
     } 
 } 
 
+//Remove glossary content
 function clearGlossary(){
     $("#glossary-entries").empty();
     $("#glossary-defs-list").empty();
@@ -277,6 +281,7 @@ function clearGlossary(){
     $("#related_videos").empty();
 }
 
+//Add topics to sidebar and make them sortable by dragging
 function addToSidebar (new_topic) {
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
     var new_sidebar_element =   '<div id="'+ new_topic.id + '" class="panel panel-default results-panel" title="Click and drag to re-order">' +
@@ -284,9 +289,9 @@ function addToSidebar (new_topic) {
                                         '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
-                                                // '<div onclick="event.stopPropagation()">' + 
-                                                '<input onclick="event.stopPropagation()" type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
-                                                // '</div>' +
+                                                '<div onclick="event.stopPropagation()">' + 
+                                                '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
+                                                '</div>' +
                                             '</div>' +
                                             '<div class="media-body results-media-body">' +
                                                 '<h4 class="results-media-heading"><b>' + new_topic.topic + '</b></h4>' + 
@@ -308,16 +313,17 @@ function addToSidebar (new_topic) {
     }  
 }
 
+//Display topic cards related to currently selected glossary keywords
 function addToRelatedVideos (new_topic) {
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
-    var new_sidebar_element =   '<div id="'+ new_topic.id + '" class="panel panel-default results-panel" title="Click and drag to re-order">' +
+    var new_sidebar_element =   '<div id="'+ new_topic.id + '" class="panel panel-default results-panel">' +
                                     '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body"  onClick="openTopicModal(' + new_topic.id + ')">' +
                                         '<div class="media results-sidebar-media" data-video-id="'+ video_id +'" >' +
                                             '<div class="image-wrap topic-yt-thumbnail">' +
                                                 '<img class="results-media-image img-responsive pull-left" src="https://img.youtube.com/vi/' + video_id + '/mqdefault.jpg">' +
-                                                // '<div onclick="event.stopPropagation()">' + 
-                                                '<input onclick="event.stopPropagation()" type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
-                                                // '</div>' +
+                                                '<div onclick="event.stopPropagation()">' + 
+                                                '<input type="button" id="playlist-btn-' + new_topic.id + '" class="btn btn-secondary pull-left results-add-playlist-button" value="+" />' +
+                                                '</div>' +
                                             '</div>' +
                                             '<div class="media-body results-media-body">' +
                                                 '<h4 class="results-media-heading"><b>' + new_topic.topic + '</b></h4>' + 
@@ -337,13 +343,12 @@ function addToRelatedVideos (new_topic) {
         $("#playlist-btn-" + new_topic.id).attr("value", "+");
         $("#playlist-btn-" + new_topic.id).attr("title", "Add to Playlist");
     }  
-}
+}   
 
 function openTopicModal (topic_id) {
     $("#topic-modal").modal("show");
     $('.modal-keywords-items').empty();
     $('.modal-backdrop').appendTo('#map-container');
-    
     var video_id = topics[topic_id].youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
     embedded_id = "https://www.youtube.com/embed/" + video_id + "?enablejsapi=1";
     $('.modal-topic-video-frame').attr('src', embedded_id);  
@@ -353,6 +358,8 @@ function openTopicModal (topic_id) {
     $('.modal-topic-time-period').html("<b>" + topics[topic_id].region + " | " + topics[topic_id].time_period + "</b>");   
     $('#modal-region-img').attr('src', regions[topics[topic_id].region].image)
     $('.modal-topic-abstract').html(topics[topic_id].topic_abstract);
+    $('#other_contributor_videos').html("Other videos from " + topics[topic_id].contributor);
+    findContributorVideos(topics[topic_id].contributor, topic_id);
     $('#modal-region-title').html(topics[topic_id].region);
 
 // the following adds a link to the transcript pdf if it is in the spreadsheet
@@ -364,7 +371,6 @@ function openTopicModal (topic_id) {
     else {
         $('#transcript_url').html('No transcript available yet'); 
     }
-
     topics[topic_id].keywords.forEach(function (element) {
         if (element != '') {
             $('.modal-keywords-items')
@@ -373,6 +379,7 @@ function openTopicModal (topic_id) {
                 + keywords[element].desc + '">' + element + '</a></li>');
         }
     });
+    
 $('[data-toggle="tooltip"]').tooltip();   
 }
 $('#topic-modal').on('shown.bs.modal', function() {
@@ -392,7 +399,7 @@ function clearSidebar () {
     $('#simpleList').empty();
 }
 
-/* This is REALLY sloppy, need to fix! */
+
 function filterByRegion (region) {
     $('#regions-filter').multiselect ('deselectAll', false);
     $("#regions-filter").multiselect ('select', [region]);
@@ -487,53 +494,58 @@ function showRegionInfo(region_id) {
  */
 
 function refreshSavePlaylist(){
-    for (var id in youtube_playlist){
-        $("#playlist-btn-" + id).attr("onClick", "removeFromPlaylist(" + id + ")");
-        $("#playlist-btn-" + id).attr("value", "-");
-        $("#playlist-btn-" + id).attr("title", "Remove from Playlist");
-        console.log(id);
+    for (var i = 0; i < youtube_playlist.length; i++){
+    var topic_id = youtube_playlist[i].id;
+    $("#playlist-btn-" + topic_id).attr("onClick", "removeFromPlaylist(" + topic_id + ")");
+    $("#playlist-btn-" + topic_id).attr("value", "-");
+    $("#playlist-btn-" + topic_id).attr("title", "Remove from Playlist");
     }
 }
 
-
 function addToPlaylist(id) {
-    if (youtube_playlist[id] == null) { 
         //Add object to playlist
-        youtube_playlist[id] = topics[id];
+        var j = youtube_playlist.length;
+        youtube_playlist.splice(j, 0, topics[id]);
         topics[id].inPlaylist = true;
         $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
         $('#playlist-btn-' + id).attr('onclick', 'removeFromPlaylist(' + id + ')');
         $('#playlist-btn-' + id).attr('value', '-');
         $('#playlist-btn-' + id).attr('title', 'Remove from Playlist');
-    } 
     savePlaylist();
 }
 
+//Store current playlist in session 
 function savePlaylist(){
     sessionStorage.removeItem('youtube_playlist');
     sessionStorage.youtube_playlist = JSON.stringify(youtube_playlist); 
     var saved_playlist = JSON.parse(sessionStorage.getItem('youtube_playlist'));
 }
 
-function removeFromPlaylist(id) {
-    if (is_playlist_active == false){
-    delete youtube_playlist[id];
-    topics[id].inPlaylist = false;
-    $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
-    $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
-    $('#playlist-btn-' + id).attr('value', '+');
-    $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
-} else {
-    delete youtube_playlist[id];
-    topics[id].inPlaylist = false;
-    document.getElementById(id).remove();
-    $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
-    $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
-    $('#playlist-btn-' + id).attr('value', '+');
-    $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
-}
- checkSortToolTip();
- savePlaylist();
+function removeFromPlaylist(id){
+        for (var i = 0; i < youtube_playlist.length; i++){
+        var target_id = id;
+        if (id == youtube_playlist[i].id && is_playlist_active == false){
+        youtube_playlist.splice(i, 1);
+        topics[id].inPlaylist = false;
+        $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
+        $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
+        $('#playlist-btn-' + id).attr('value', '+');
+        $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
+       } else {
+            if(id == youtube_playlist[i].id){
+            youtube_playlist.splice(i, 1);
+            topics[id].inPlaylist = false;
+            document.getElementById(id).remove();
+            $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
+            $('#playlist-btn-' + id).attr('onclick', 'addToPlaylist(' + id + ')');
+            $('#playlist-btn-' + id).attr('value', '+');
+            $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
+            }
+
+        }
+    }
+    checkSortToolTip();
+    savePlaylist();
 };
 
 var is_playlist_active = false;
@@ -551,21 +563,35 @@ function togglePlaylist() {
             if (current_page == "glossary.html"){
                 glossaryTerms();
                 getGlossaryDef(lastClickedDef);
-                console.log("Add glossaryTerms");
             } else {
             searchByFilters();
             refreshSavePlaylist();
 
             }
         } else {
-            for (var video_id in youtube_playlist) {
-                addToSidebar(topics[video_id]);
+            for (var i = 0; i < youtube_playlist.length; i++) {
+                var j = youtube_playlist[i].id;
+                addToSidebar(topics[j]);
             }
             is_playlist_active = true;
             $("#playlist-button").html('Back');
         }        
     }
-    //PUT CODE HERE TO REFRESH PLAYLIST
+
+function checkInPlaylist(id){
+        for (var i = 0; i < youtube_playlist.length; i++){
+            if(id == youtube_playlist[i].id  ){
+                topics[id].inPlaylist = true;
+                $("#playlist-btn-" + topics[id].id).attr("onClick", "removeFromPlaylist(" + topics[id].id + ")");
+                $("#playlist-btn-" + topics[id].id).attr("value", "-");
+                $("#playlist-btn-" + topics[id].id).attr("title", "Remove from Playlist");
+            }
+        }
+
+}
+
+    
+//Refresh playlist
     checkSortToolTip();  
     refreshSavePlaylist();
 
@@ -575,10 +601,10 @@ function togglePlaylist() {
 *   Disable Click to Drag message if only one video is in 
 *   Open topic modal to refresh playlist
 */
+
 function checkSortToolTip(){
     var playlist_length = Object.keys(youtube_playlist).length; 
     if (jQuery.isEmptyObject(youtube_playlist) && is_playlist_active){
-        console.log("Youtube list is empty and playlist is active: " + is_playlist_active);
         // is_playlist_active = false;
         $("#playlist-button").html('Back');
     } else {
@@ -591,3 +617,24 @@ function checkSortToolTip(){
         }    
     } 
 }
+
+function findContributorVideos (new_contributor, current_topic){
+    $('.modal-other-videos').empty();
+    var filteredArray = topics.filter(function(id) {
+        return id.contributor === new_contributor;
+        });
+    target_index = filteredArray.findIndex(target_topic => target_topic.id == current_topic);
+    filteredArray.splice(target_index,1);
+    filteredArray.forEach(function (element) {
+           if (element != '') {
+            $('.modal-other-videos')
+              .append('<li><a href="#"" class="" onClick="openTopicModal(' + element.id + ')" data-toggle="tooltip"'
+                + 'data-placement="auto right" title="'
+                + element.topic + '">' + element.topic + '</a></li>');
+            }
+        })
+    if (filteredArray.length == "0"){
+        $('#other_contributor_videos').html("");
+    }
+}
+
