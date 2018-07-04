@@ -262,6 +262,10 @@ body {
     position: absolute !important;
 }
 
+.modal-topic-contributor{
+    padding-left: 10px;
+}
+
 .modal-topic-title {
     padding: 0; margin: 0;
     text-transform: uppercase;
@@ -271,12 +275,13 @@ body {
 }
 
 .modal-keywords-items {
-    padding: 0;
+    padding-left: 10px;
     list-style-type: none;
 }
 
 .modal-keywords-title {
-    padding: 0; margin: 0; 
+    padding-left: 10px; 
+    margin: 0; 
     padding-top: 16px; padding-bottom: 5px;
 }
 

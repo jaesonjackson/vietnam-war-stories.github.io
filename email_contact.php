@@ -1,7 +1,5 @@
 <?php
-
 $name = $email = $message = "";
-
     if(isset($_POST['submit']))
     {
         
@@ -14,44 +12,31 @@ $name = $email = $message = "";
         //$output = '';
         //Set the form flag to no display (cheap way!)
         $flags = 'style="display:none;"';
-
         //Deal with the email
-        $to = 'jackjaes@iu.edu'; // change to whatever email you want to send to
+        $to = 'foo@iu.edu'; // change to whatever email you want to send to
         $subject = 'A message from Vietnam War Stories';
-
-
         $attachment = chunk_split(base64_encode(file_get_contents($_FILES['file']['tmp_name'])));
         $filename = $_FILES['file']['name'];
-
         $boundary =md5(date('r', time())); 
-
         $headers = "From: " . $email . "\r\nReply-To: ". $email;
         $headers .= "\r\nMIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"_1_$boundary\"";
-
         $message="This is a multi-part message in MIME format.
-
 --_1_$boundary
 Content-Type: multipart/alternative; boundary=\"_2_$boundary\"
-
 --_2_$boundary
 Content-Type: text/plain; charset=\"iso-8859-1\"
 Content-Transfer-Encoding: 7bit
-
 From $name
 $message
-
 --_2_$boundary--
 --_1_$boundary
 Content-Type: application/octet-stream; name=\"$filename\" 
 Content-Transfer-Encoding: base64 
 Content-Disposition: attachment 
-
 $attachment
 --_1_$boundary--";
-
         mail($to, $subject, $message, $headers);
     }
-
 // validates string fields
 function test_input($data) {
   $data = trim($data);
@@ -68,7 +53,6 @@ function test_input($data) {
 <title>MailFile</title>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
-
 input[type=text], select, textarea {
     width: 100%;
     padding: 12px;
@@ -79,7 +63,6 @@ input[type=text], select, textarea {
     margin-bottom: 16px;
     resize: vertical;
 }
-
 input[type=submit] {
     background-color: #4CAF50;
     color: white;
@@ -88,11 +71,9 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
-
 input[type=submit]:hover {
     background-color: #45a049;
 }
-
 .container {
     border-radius: 5px;
     background-color: #f2f2f2;

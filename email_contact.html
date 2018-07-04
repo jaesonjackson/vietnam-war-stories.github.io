@@ -1,13 +1,15 @@
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<title>MailFile</title>
+<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="css/bootstrap/bootstrap-multiselect.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Contact Vietnam War Stories</title>
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-
 input[type=text], select, textarea {
     width: 100%;
     padding: 12px;
@@ -18,7 +20,6 @@ input[type=text], select, textarea {
     margin-bottom: 16px;
     resize: vertical;
 }
-
 input[type=submit] {
     background-color: #4CAF50;
     color: white;
@@ -27,11 +28,9 @@ input[type=submit] {
     border-radius: 4px;
     cursor: pointer;
 }
-
 input[type=submit]:hover {
     background-color: #45a049;
 }
-
 .container {
     border-radius: 5px;
     background-color: #f2f2f2;
@@ -41,6 +40,26 @@ input[type=submit]:hover {
 </head>
 
 <body>
+     <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Vietnam War Stories <small>Stories From All Sides</small></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="index.html"><b>MAP</b></a></li>
+                        <li><a href="#about"><b>GLOSSARY</b></a></li>
+                        <li><a href="email_contact.html"><b>CONTACT US</b></a></li>
+                    </ul> <!-- /.navbar-nav -->
+                </div> <!-- #navbar -->
+            </div> <!-- /.container-fluid -->
+        </nav> <!-- /.navbar -->
 <div class="container">
 <?php echo $output; ?>
 <h1>Tell your story</h1>

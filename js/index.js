@@ -618,6 +618,7 @@ function checkSortToolTip(){
     } 
 }
 
+//Find all videos by currently selected contributor and add links to them in topic modal
 function findContributorVideos (new_contributor, current_topic){
     $('.modal-other-videos').empty();
     var filteredArray = topics.filter(function(id) {
