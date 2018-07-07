@@ -264,7 +264,7 @@ function getGlossaryDef(glossary_id){
                 }   
             }
         }
-    $("#glossary-defs-list").empty().append("<h1>" + glossary_entry + "</h1>");
+    $("#glossary-defs-list").empty().append("<h4>" + glossary_entry + "</h4>");
     $("#glossary-defs").empty().append(glossary_def); 
     
     if(related_topic_found == true)  {
