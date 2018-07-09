@@ -178,7 +178,7 @@ function getData (data, tabletop) {
     });
     //If current page is glossary.html, display glossary terms
     if (current_page == "glossary.html"){
-        glossaryTerms();
+        glossaryTerms("A");
     }
 
     $.each(tabletop.sheets("Contributors").all(), function (i, current) {
@@ -219,22 +219,30 @@ function getData (data, tabletop) {
  */
 
 //Get glossary terms array, create terms list
-function glossaryTerms(){
-  var glossaryTerms = Object.values(keywords);
-  for (var i = 0; i < glossaryTerms.length; i++){
-    var new_glossary_entry = glossaryTerms[i];
+
+function glossaryTerms(firstChar){
+    lastClickedTermList = firstChar;
+    $("#glossary-entries").empty();
+  var find_glossary_terms = Object.values(keywords);
+  for (var i = 0; i < find_glossary_terms.length; i++){
+    var new_glossary_entry = find_glossary_terms[i];
     var glossary_list =  '<a href="#"><li onClick="getGlossaryDef('+  new_glossary_entry.id +')">' + new_glossary_entry.name + '</li></a>';
+    var target_terms = new_glossary_entry.name;
+    if(target_terms.charAt(0).toUpperCase() == firstChar){
     $("#glossary-entries").append(glossary_list);
+    } 
   }
   getFirstDef();
  }
 
 //Get the most recently clicked glossary term
 var lastClickedDef = 0; 
+var lastClickedTermList = "A";
 function getFirstDef(){
     if ($('#glossary-defs-list').is(':empty') && current_page =="glossary.html"){
         if(topics_loaded == true){
             getGlossaryDef(lastClickedDef);
+            glossaryTerms(lastClickedTermList);
         }
         else{
         setTimeout(getFirstDef, 250);
@@ -271,6 +279,16 @@ function getGlossaryDef(glossary_id){
          $("#glossary-links").empty().append("Related video topics: ");
     } 
 } 
+
+
+function toggleAlphabeticalList() {
+    var x = document.getElementById("alphabetical-listing");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 
 //Remove glossary content
 function clearGlossary(){
@@ -561,8 +579,11 @@ function togglePlaylist() {
            is_playlist_active = false;
            $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
             if (current_page == "glossary.html"){
-                glossaryTerms();
+                toggleAlphabeticalList();
+                // glossaryTerms();
                 getGlossaryDef(lastClickedDef);
+                glossaryTerms(lastClickedTermList);
+               
             } else {
             searchByFilters();
             refreshSavePlaylist();
@@ -575,6 +596,7 @@ function togglePlaylist() {
             }
             is_playlist_active = true;
             $("#playlist-button").html('Back');
+             toggleAlphabeticalList();
         }        
     }
 

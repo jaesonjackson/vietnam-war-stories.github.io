@@ -359,8 +359,18 @@ body {
     overflow: hidden;
 }
 
+#alphabetical-listing {
+    letter-spacing: .5EM;
+    font-weight: bold;
+    margin: .5EM 0 2EM 2EM;
+}
+
 #glossary-terms {
-    padding: 0px 10px 4em 10px;
+   margin-bottom: 2EM; 
+}
+
+#glossary-entries {
+  margin: 0px 2EM 8EM 0px;
 }
 
 #related_videos {
