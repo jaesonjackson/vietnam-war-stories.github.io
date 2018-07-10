@@ -282,12 +282,14 @@ function getGlossaryDef(glossary_id){
 
 
 function toggleAlphabeticalList() {
-    var x = document.getElementById("alphabetical-listing");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-    } else {
-        x.style.display = "none";
-    }
+	if (current_page == "glossary.html"){
+        var current_alphabetical_list = document.getElementById("alphabetical-listing");
+            if (current_alphabetical_list.style.display === "none") {
+                current_alphabetical_list.style.display = "block";
+            } else {
+                current_alphabetical_list.style.display = "none";
+              }
+	}
 }
 
 //Remove glossary content
@@ -417,7 +419,6 @@ function clearSidebar () {
     $('#simpleList').empty();
 }
 
-
 function filterByRegion (region) {
     $('#regions-filter').multiselect ('deselectAll', false);
     $("#regions-filter").multiselect ('select', [region]);
@@ -482,7 +483,6 @@ function searchByFilters () {
     } else { console.log ("Error in searchByFilters() function!"); }
     
     clearSidebar();
-    
     if (found_topics.length != 0) {
         found_topics.forEach (function (element) { 
             addToSidebar (element); 
@@ -490,7 +490,6 @@ function searchByFilters () {
     } else {
         $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
     }
-    
     return false;
 }
 
@@ -559,7 +558,6 @@ function removeFromPlaylist(id){
             $('#playlist-btn-' + id).attr('value', '+');
             $('#playlist-btn-' + id).attr('title', 'Add to Playlist');
             }
-
         }
     }
     checkSortToolTip();
@@ -579,15 +577,13 @@ function togglePlaylist() {
            is_playlist_active = false;
            $('#playlist-button').text('Playlist (' + Object.keys(youtube_playlist).length + ')');
             if (current_page == "glossary.html"){
-                toggleAlphabeticalList();
                 // glossaryTerms();
                 getGlossaryDef(lastClickedDef);
                 glossaryTerms(lastClickedTermList);
-               
+                toggleAlphabeticalList();
             } else {
             searchByFilters();
             refreshSavePlaylist();
-
             }
         } else {
             for (var i = 0; i < youtube_playlist.length; i++) {
@@ -609,7 +605,6 @@ function checkInPlaylist(id){
                 $("#playlist-btn-" + topics[id].id).attr("title", "Remove from Playlist");
             }
         }
-
 }
 
     
@@ -634,7 +629,9 @@ function checkSortToolTip(){
         var topic_id = document.getElementById("simpleList").firstChild.id;
             if (playlist_length == 1){
             $("#" + topic_id).attr("title", ""); 
-            } else {openTopicModal(topic_id);
+            openTopicModal(topic_id);
+            } else {
+                openTopicModal(topic_id);
             }
         }    
     } 
