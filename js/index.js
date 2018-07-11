@@ -378,7 +378,7 @@ function openTopicModal (topic_id) {
     $('.modal-topic-time-period').html("<b>" + topics[topic_id].region + " | " + topics[topic_id].time_period + "</b>");   
     $('#modal-region-img').attr('src', regions[topics[topic_id].region].image)
     $('.modal-topic-abstract').html(topics[topic_id].topic_abstract);
-    $('#other_contributor_videos').html("Other videos from " + topics[topic_id].contributor);
+    $('#other_contributor_videos').html("Other videos from " + topics[topic_id].contributor + ":");
     findContributorVideos(topics[topic_id].contributor, topic_id);
     $('#modal-region-title').html(topics[topic_id].region);
 
