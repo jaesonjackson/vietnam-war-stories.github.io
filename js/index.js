@@ -1,4 +1,7 @@
+// Production spreadsheet
 var public_spreadsheet_url = "https://docs.google.com/spreadsheets/d/1tbJrFcH9yuBl5Hfkg8s7SZ-3b4blHBodAat6o-xGzbw/pubhtml";
+// Dev spreadsheet
+// var public_spreadsheet_url = "https://docs.google.com/spreadsheets/d/1Aqez9uNTS2wBdOdsOgxZwQBppINTMS46U2eVyIEObeQ/edit?usp=sharing";
 
 var affiliations_filters = [],
     regions_filters = [],
@@ -335,6 +338,7 @@ function addToSidebar (new_topic) {
 
 //Display topic cards related to currently selected glossary keywords
 function addToRelatedVideos (new_topic) {
+    
     var video_id = new_topic.youtube_link.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)[1];
     var new_sidebar_element =   '<div id="'+ new_topic.id + '" class="panel panel-default results-panel">' +
                                     '<div id="topic-sidebar-card-' + new_topic.id + '" class="results-panel-body"  onClick="openTopicModal(' + new_topic.id + ')">' +

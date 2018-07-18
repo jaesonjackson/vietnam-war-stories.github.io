@@ -368,7 +368,7 @@ body {
 }
 
 #alphabetical-listing {
-    letter-spacing: .5EM;
+    letter-spacing: .30EM;
     font-weight: bold;
     margin: .5EM 0 2EM 2EM;
 }
@@ -387,4 +387,8 @@ body {
 
 .close {
     margin-bottom:5px;
+}
+
+#simpleList {
+    margin-bottom: 8em;
 }
