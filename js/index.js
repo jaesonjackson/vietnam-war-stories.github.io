@@ -437,7 +437,7 @@ function filterByRegion (region) {
     });
     
     if (found_topics == 0) {
-       $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
+       $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contactform.html/">contact us</a>!</p>');
     }
 }
 
@@ -492,7 +492,7 @@ function searchByFilters () {
             addToSidebar (element); 
         });
     } else {
-        $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contact/">contact us</a>!</p>');
+        $('#simpleList').append('<p>There are no entries under these specific filters. If you have a story you\'d like to share for these filters, please <a target="_blank" href="http://vietnamwarstories.indiana.edu/contactform.html">contact us</a>!</p>');
     }
     return false;
 }

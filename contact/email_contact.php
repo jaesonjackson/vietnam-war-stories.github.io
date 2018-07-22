@@ -16,7 +16,11 @@ $name = $email = $message = "";
         $flags = 'style="display:none;"';
 
         //Deal with the email
-        $to = 'osgoodr@gmail.com';
+        // $to = 'osgoodr@gmail.com';
+        // $to = 'osgoodr@indiana.edu';
+        // $to = 'ejblom@iu.edu';
+           $to = 'eric.j.blom@gmail.com';
+
         $subject = 'A message from Vietnam War Stories';
 
 

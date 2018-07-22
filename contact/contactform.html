@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+<h1>Tell your story</h1>
+<p>If you want to tell your story, contact the team with this form. Feel free to upload a photo from the story or a photo of an object from the war as well.</p>
+
+<form method="post" enctype="multipart/form-data" action="contactform.php">
+  <p>
+    <label for="name">Your name</label>
+    <input type="text" name="name">
+  </p>
+  <p>
+    <label for="email">Your email address</label>
+    <input type="text" name="email">
+  </p>
+  <p>
+    <label for="message">Message</label> 
+    <textarea name="message" id="message" cols="40" rows="8"></textarea>
+  </p>
+  <p>
+    <input type="hidden" name="MAX_FILE_SIZE" value="1000000"> Send this file (max size one Mb): <input name="userfile" type="file">
+    <input type="submit" value="Send Message">
+  </p>
+</form>
+</div>
+</body>
+</html>
